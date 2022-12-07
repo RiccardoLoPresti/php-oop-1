@@ -1,14 +1,15 @@
 <?php
 
 require_once './class/Movie.php';
+require_once './class/Genre.php';
 
-$movie1 = new Movie('Terminator','120\'','1984','Azione');
-$movie1->getPoster('https://pad.mymovies.it/filmclub/2001/01/087/locandina.jpg');
-//var_dump($movie1);
+$movie1 = new Movie('Terminator','120\'','1984', new Genre('Azione'));
+$movie1->setPoster('https://pad.mymovies.it/filmclub/2001/01/087/locandina.jpg');
+var_dump($movie1);
 
-$movie2 = new Movie('Step Up', '130\'', '2006','Drammatico');
-$movie2->getPoster('https://mr.comingsoon.it/imgdb/locandine/big/539.jpg');
-//var_dump($movie2);
+$movie2 = new Movie('Step Up', '130\'', '2006', new Genre('Drammatico','Danza', 'Commedia'));
+//$movie2->setPoster('https://mr.comingsoon.it/imgdb/locandine/big/539.jpg');
+var_dump($movie2);
 
 $movie_list= [$movie1, $movie2];
 //var_dump($movie_list);
@@ -43,9 +44,17 @@ $movie_list= [$movie1, $movie2];
             <?php foreach($movie_list as $movie) : ?>
                 <tr>
                     <td><?php echo $movie->title ?></td>
-                    <td><img style="width: 80px;" src="<?php echo $movie->poster ?>" alt="<?php echo $movie->title ?>"></td>
+                    <td>
+                        <img style="width: 180px;" src="<?php echo $movie->getPoster() ?>" alt="<?php echo $movie->title ?>">
+                    </td>
                     <td><?php echo $movie->length ?></td>
-                    <td><?php echo $movie->genre ?></td>
+                    <td>
+                        <?php foreach($movie->genre as $prova) 
+                            echo '<ul>' . '<br>' . '<li style="list-style: none;">'
+                            . ($prova ?? 'ND') . 
+                            '</ul>' . '<br>' . '</li>' 
+                        ?>
+                    </td>
                     <td><?php echo $movie->year ?></td>
                 </tr>
             <?php endforeach; ?>
